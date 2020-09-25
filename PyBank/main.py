@@ -1,3 +1,6 @@
+def Average(list): 
+    return sum(list) / len(list) 
+
 import os
 import csv
 
@@ -14,20 +17,28 @@ with open(budget_file,'r') as budget_file_handler:
     greatest_increase_month = " "
     greatest_decrease = 0
     greatest_decrease_month = " "
+    monthly_change = []
+    previous_month_pl = 0
     for row in budget_file_row:
         budget_month = row[0]
         monthly_profit = row[1]
-        total_profit = int(total_profit) + int(monthly_profit)
+        chg = int(monthly_profit) - previous_month_pl
+        monthly_change.append(chg)
+
+        total_profit = total_profit + int(monthly_profit)
         cnt = cnt + 1
-        if int(monthly_profit) > int(greatest_increase):
+        previous_month_pl = int(monthly_profit)
+        if  int(monthly_profit) > greatest_increase:
             greatest_increase = int(monthly_profit)
             greatest_increase_month = budget_month
-        if float(monthly_profit) < int(greatest_decrease):
+        if  int(monthly_profit) < greatest_decrease:
             greatest_decrease = int(monthly_profit)
             greatest_decrease_month = budget_month
 
 
-Average_Change = round(total_profit / cnt,2)
+Average_Change = round( Average(monthly_change) / len(monthly_change),2)
+greatest_profit = max(monthly_change)
+least_profit = min (monthly_change)
 print('Financial Analysis')
 analysis_output.write('Financial Analysis \n')
 print('-' * 40)
@@ -38,7 +49,8 @@ print(f'Total:   ${total_profit} ')
 analysis_output.write(f'Total:   ${total_profit} \n')
 print(f'Average  Change: ${Average_Change}')
 analysis_output.write(f'Average  Change: ${Average_Change} \n')
-print(f'Greatest Increase in Profits: {greatest_increase_month} (${greatest_increase})')
-analysis_output.write(f'Greatest Increase in Profits: {greatest_increase_month} (${greatest_increase}) \n')
-print(f'Greatest Decrease in Profits: {greatest_decrease_month} (${greatest_decrease})')
-analysis_output.write(f'Greatest Decrease in Profits: {greatest_decrease_month} (${greatest_decrease}) \n')
+print(f'Greatest Increase in Profits: {greatest_increase_month} (${greatest_profit})')
+analysis_output.write(f'Greatest Increase in Profits: {greatest_increase_month} (${greatest_profit})" \n')
+print(f'Greatest Decrease in Profits: {greatest_decrease_month} (${least_profit})')
+analysis_output.write(f'Greatest Decrease in Profits: {greatest_decrease_month} (${least_profit}) \n')
+#print(sum(monthly_change),len(monthly_change))
