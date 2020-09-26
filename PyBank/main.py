@@ -23,20 +23,20 @@ with open(budget_file,'r') as budget_file_handler:
         budget_month = row[0]
         monthly_profit = row[1]
         chg = int(monthly_profit) - previous_month_pl
-        monthly_change.append(chg)
-
+        if  cnt  >0:            # this will skip first month profit data from provided csv as we are calculating the change in profit
+            monthly_change.append(chg)
         total_profit = total_profit + int(monthly_profit)
         cnt = cnt + 1
         previous_month_pl = int(monthly_profit)
-        if  int(monthly_profit) > greatest_increase:
+        if  int(monthly_profit) > greatest_increase:                #To identify the month of highest profit data
             greatest_increase = int(monthly_profit)
             greatest_increase_month = budget_month
-        if  int(monthly_profit) < greatest_decrease:
+        if  int(monthly_profit) < greatest_decrease:                # To identify the month of lowest profit data
             greatest_decrease = int(monthly_profit)
             greatest_decrease_month = budget_month
 
 
-Average_Change = round( Average(monthly_change) / len(monthly_change),2)
+Average_Change = round( Average(monthly_change),2)
 greatest_profit = max(monthly_change)
 least_profit = min (monthly_change)
 print('Financial Analysis')
@@ -53,4 +53,3 @@ print(f'Greatest Increase in Profits: {greatest_increase_month} (${greatest_prof
 analysis_output.write(f'Greatest Increase in Profits: {greatest_increase_month} (${greatest_profit})" \n')
 print(f'Greatest Decrease in Profits: {greatest_decrease_month} (${least_profit})')
 analysis_output.write(f'Greatest Decrease in Profits: {greatest_decrease_month} (${least_profit}) \n')
-#print(sum(monthly_change),len(monthly_change))
