@@ -3,6 +3,7 @@ import csv
 
 election_input_file = os.path.join('Resources/', 'election_data.csv')
 election_output_file = os.path.join("analysis/", "election_analysis.txt")
+election_analysis_output = open(election_output_file,'w')
 total_votes = 0
 candidate1 = "Khan"
 candidate2 = "Correy"
@@ -12,6 +13,8 @@ candidate1_counter = 0
 candidate2_counter = 0
 candidate3_counter = 0
 candidate4_counter = 0
+candidate1_percentage_votes = 0
+candidate2_percentage_votes = 0
 cnt = 0
 
 with open(election_input_file,'r') as election_input_file_filehandler:
@@ -33,10 +36,11 @@ with open(election_input_file,'r') as election_input_file_filehandler:
         total_votes = candidate1_counter + candidate2_counter + candidate3_counter + candidate4_counter
 
 if total_votes > 0:
-    candidate1_percentage_votes = candidate1_counter / total_votes
-    candidate2_percentage_votes = candidate2_counter / total_votes
-    candidate3_percentage_votes = candidate3_counter / total_votes
-    candidate4_percentage_votes = candidate4_counter / total_votes
+    #candidate1_percentage_votes = round((candidate1_counter * 100) / total_votes,3)
+    candidate1_percentage_votes = round(((candidate1_counter * 100) / total_votes), 3)
+    candidate2_percentage_votes = round((candidate2_counter * 100) / total_votes,3)
+    candidate3_percentage_votes = round((candidate3_counter * 100) / total_votes,3)
+    candidate4_percentage_votes = round((candidate4_counter * 100) / total_votes,3)
 else:
     print(" No Voting Happen") 
 
@@ -52,17 +56,27 @@ elif candidate4_counter > candidate1_counter and candidate4_counter > candidate2
      
 
 print("Election Results ")
-print('=' * 40)
+election_analysis_output.write('Election Results \n')
+print('-' * 40)
+election_analysis_output.write('-' * 40)
 print(f'Total Votes: {total_votes}')
-print('=' * 40)
-print(f'{candidate1} votes :{candidate1_counter}')
-print(f'{candidate2} votes :{candidate2_counter}')
-print(f'{candidate3} votes :{candidate3_counter}')
-print(f'{candidate4} votes :{candidate4_counter}')
-print('=' * 40)
+election_analysis_output.write(f'\nTotal Votes: {total_votes}\n')
+print('-' * 40)
+election_analysis_output.write('-' * 40)
+print(f'{candidate1}: {candidate1_percentage_votes:.3f}% ({candidate1_counter})')
+election_analysis_output.write(f'\n{candidate1}: {candidate1_percentage_votes:.3f}% ({candidate1_counter})\n')
+print(f'{candidate2}: {candidate2_percentage_votes:.3f}% ({candidate2_counter})')
+election_analysis_output.write(f'{candidate2}: {candidate2_percentage_votes:.3f}% ({candidate2_counter})\n')
+print(f'{candidate3}: {candidate3_percentage_votes:.3f}% ({candidate3_counter})')
+election_analysis_output.write(f'{candidate3}: {candidate3_percentage_votes:.3f}% ({candidate3_counter})\n')
+print(f'{candidate4}: {candidate4_percentage_votes:.3f}% ({candidate4_counter})')
+election_analysis_output.write(f'{candidate4}: {candidate4_percentage_votes:.3f}% ({candidate4_counter})\n')
+print('-' * 40)
+election_analysis_output.write('-' * 40)
 print(f'Winner: {winner}')
-print('=' * 40)
-
+election_analysis_output.write(f'\nWinner: {winner}\n')
+print('-' * 40)
+election_analysis_output.write('-' * 40)
 
 
         
